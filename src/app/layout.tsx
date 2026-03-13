@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Obliq - RBAC System",
   description: "An RBAC (Role-Based Access Control) system built with Next.js, NestJS, and PostgreSQL. Manage users, roles, permissions, and access control in a secure and scalable way.",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
