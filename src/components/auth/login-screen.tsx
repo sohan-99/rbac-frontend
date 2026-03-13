@@ -60,7 +60,7 @@ export function LoginScreen() {
                 <label className="block">
                   <span className="text-[15px]  font-medium text-[#404857]">Email</span>
                   <input
-                    className="h-12 w-full rounded-xl border border-[#0000001a] mt-1.5 px-4 text-[16px] text-[#374056] placeholder:text-[#8c93a3] placeholder:opacity-100 outline-none transition hover:border-[#0000001a] hover:bg-[#0000000a] focus:border-[#0000001a] focus:shadow-[0_0_0_1px] focus:placeholder:opacity-0"
+                    className="h-10 w-full rounded-xl border border-[#0000001a] mt-1.5 px-4 text-[16px] text-[#374056] placeholder:text-[#8c93a3] placeholder:opacity-100 outline-none transition hover:border-[#0000001a] hover:bg-[#0000000a] focus:border-[#0000001a] focus:shadow-[0_0_0_1px] focus:placeholder:opacity-0"
                     type="email"
                     placeholder="example@email.com"
                     value={email}
@@ -72,7 +72,7 @@ export function LoginScreen() {
                 <label className="block">
                   <span className="text-[15px] font-medium text-[#404857]">Password</span>
                   <input
-                    className="h-12 w-full rounded-xl border border-[#0000001a] mt-1.5 px-4 text-[16px] text-[#374056] placeholder:text-[#8c93a3] placeholder:opacity-100 outline-none transition hover:border-[#0000001a] hover:bg-[#0000000a] focus:border-[#0000001a] focus:shadow-[0_0_0_1px] focus:placeholder:opacity-0"
+                    className="h-10 w-full rounded-xl border border-[#0000001a] mt-1.5 px-4 text-[16px] text-[#374056] placeholder:text-[#8c93a3] placeholder:opacity-100 outline-none transition hover:border-[#0000001a] hover:bg-[#0000000a] focus:border-[#0000001a] focus:shadow-[0_0_0_1px] focus:placeholder:opacity-0"
                     type="password"
                     placeholder="Enter your password"
                     value={password}
