@@ -100,12 +100,12 @@ export function LoginScreen() {
                     <span className="text-[14px] text-[#666C79]">Remember me</span>
                   </label>
 
-                  <button
-                    className="rounded-md px-2 py-1 text-[14px] font-medium text-[#FD6D3F] transition hover:bg-[#0000000a] "
-                    type="button"
+                  <Link
+                    href="/password-reset"
+                    className="rounded-md px-2 py-1 text-[14px] font-medium text-[#FD6D3F] transition hover:bg-[#0000000a]"
                   >
                     Forgot password?
-                  </button>
+                  </Link>
                 </div>
 
                 <p
