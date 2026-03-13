@@ -5,7 +5,7 @@ const PUBLIC_PATHS = ["/", "/login", "/signup"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const token = request.cookies.get("accessToken")?.value;
+  const token = request.cookies.get("refreshToken")?.value;
   const isPublicPath = PUBLIC_PATHS.some((path) => pathname.startsWith(path));
 
   if (!token && !isPublicPath) {

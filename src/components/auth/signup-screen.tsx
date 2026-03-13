@@ -4,9 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { authService } from "@/services/auth.service";
 
 export function SignupScreen() {
   const router = useRouter();
+  const { setAuth } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,9 +22,11 @@ export function SignupScreen() {
     setLoading(true);
 
     try {
-      // TODO: wire to real signup endpoint
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      router.push("/");
+      const response = await authService.signup({ name, email, password });
+      const { accessToken, user } = response.data.data;
+      setAuth({ accessToken, user });
+      router.push("/dashboard");
+      router.refresh();
     } catch {
       setError("Signup failed. Please try again.");
     } finally {

@@ -26,13 +26,11 @@ export function LoginScreen() {
       const { accessToken, user } = response.data.data;
 
       setAuth({ accessToken, user });
-      const maxAge = remember ? 60 * 60 * 24 * 14 : 60 * 60;
-      document.cookie = `accessToken=${encodeURIComponent(accessToken)}; path=/; max-age=${maxAge}; samesite=lax`;
 
       router.push("/dashboard");
       router.refresh();
     } catch {
-      setError("Invalid credentials. Try admin@rbac.local / admin123");
+      setError("Invalid credentials.");
     } finally {
       setLoading(false);
     }
@@ -110,7 +108,14 @@ export function LoginScreen() {
                   </button>
                 </div>
 
-                {error ? <p className="text-[13px] text-[#d14425]">{error}</p> : null}
+                <p
+                  className={`h-5 text-[13px] leading-5 ${
+                    error ? "visible text-[#d14425]" : "invisible"
+                  }`}
+                  aria-live="polite"
+                >
+                  {error ?? "Invalid credentials."}
+                </p>
 
                 <button
                   className="group h-10 w-full rounded-xl border border-[#FD5E2B] bg-[#FD6D3F] text-[14px] font-medium text-white shadow-[0_9px_22px_rgba(228,101,58,0.32)] transition hover:bg-white hover:text-[#FD6D3F] hover:shadow-[0_11px_26px_rgba(228,101,58,0.35)] disabled:cursor-not-allowed disabled:opacity-70"

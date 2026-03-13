@@ -7,13 +7,21 @@ type LoginPayload = {
   password: string;
 };
 
+type SignupPayload = {
+  name: string;
+  email: string;
+  password: string;
+};
+
 type LoginResponse = {
   accessToken: string;
-  refreshToken: string;
   user: User;
 };
 
 export const authService = {
+  signup(payload: SignupPayload) {
+    return api.post<ApiResponse<LoginResponse>>('/auth/signup', payload);
+  },
   login(payload: LoginPayload) {
     return api.post<ApiResponse<LoginResponse>>("/auth/login", payload);
   },

@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { authService } from "@/services/auth.service";
 
 const links = [
   { href: "/dashboard", label: "Dashboard" },
@@ -15,9 +17,23 @@ const links = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { clearAuth } = useAuth();
+
+  async function handleLogout() {
+    try {
+      await authService.logout();
+    } catch {
+      // Ignore API failure and continue local logout.
+    } finally {
+      clearAuth();
+      router.push("/");
+      router.refresh();
+    }
+  }
 
   return (
-    <aside className="w-64 border-r border-slate-200 bg-white p-4">
+    <aside className="flex w-64 flex-col border-r border-slate-200 bg-white p-4">
       <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">
         RBAC System
       </p>
@@ -40,6 +56,28 @@ export function Sidebar() {
           );
         })}
       </nav>
+
+      <div className="mt-auto space-y-1 pt-6">
+        <button
+          type="button"
+          className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-600 transition hover:bg-slate-100"
+        >
+          Help center
+        </button>
+        <button
+          type="button"
+          className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-600 transition hover:bg-slate-100"
+        >
+          Settings
+        </button>
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="block w-full rounded-md px-3 py-2 text-left text-sm font-medium text-[#FD6D3F] transition hover:bg-[#fff1eb]"
+        >
+          Logout
+        </button>
+      </div>
     </aside>
   );
 }
