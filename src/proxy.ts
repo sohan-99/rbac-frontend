@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const PUBLIC_PATHS = ["/", "/login", "/signup", "/password-reset"];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("refreshToken")?.value;
   const isPublicPath = PUBLIC_PATHS.some((path) => pathname.startsWith(path));
@@ -14,7 +14,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (token && (pathname === "/" || pathname === "/login" || pathname === "/signup" || pathname === "/password-reset")) {
+  if (
+    token &&
+    (pathname === "/" ||
+      pathname === "/login" ||
+      pathname === "/signup" ||
+      pathname === "/password-reset")
+  ) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
@@ -24,5 +30,17 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/signup", "/password-reset", "/dashboard/:path*", "/users/:path*", "/leads/:path*", "/tasks/:path*", "/reports/:path*", "/audit-log/:path*", "/settings/:path*"],
+  matcher: [
+    "/",
+    "/login",
+    "/signup",
+    "/password-reset",
+    "/dashboard/:path*",
+    "/users/:path*",
+    "/leads/:path*",
+    "/tasks/:path*",
+    "/reports/:path*",
+    "/audit-log/:path*",
+    "/settings/:path*",
+  ],
 };
