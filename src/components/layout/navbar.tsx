@@ -1,6 +1,11 @@
+"use client";
+
 import { Bell, ChevronLeft, Search } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export function Navbar() {
+  const { user } = useAuth();
+  const initial = user?.name?.charAt(0).toUpperCase() ?? "?";
   return (
     <header className="flex h-14.5 items-center justify-between border-b border-[#e2e4e8] bg-[#f7f7f9] px-4">
       <div className="flex items-center gap-3">
@@ -32,7 +37,9 @@ export function Navbar() {
         >
           <Bell className="h-4 w-4" />
         </button>
-        <div className="h-8 w-8 rounded-full bg-[#d9dbe1]" />
+        <div className="grid h-8 w-8 place-items-center rounded-full bg-[#6564ec] text-[13px] font-semibold text-white">
+          {initial}
+        </div>
       </div>
     </header>
   );

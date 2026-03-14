@@ -88,8 +88,8 @@ export function Sidebar() {
       </div>
 
       <div className="mb-4 rounded-xl border border-[#d5cbc3] bg-[#f7f2ee] p-2.5">
-        <p className="text-[12px] font-semibold text-[#394257]">John&apos;s workspace</p>
-        <p className="text-[11px] text-[#8b90a1]">#WD12446875</p>
+        <p className="text-[12px] font-semibold text-[#394257]">{user?.name ?? "Workspace"}&apos;s workspace</p>
+        <p className="text-[11px] text-[#8b90a1]">#{user?.id ? user.id.replace(/-/g, "").slice(0, 10).toUpperCase() : "----------"}</p>
       </div>
 
       <nav className="space-y-0.5">
