@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
+import { AuthBootstrap } from "@/components/auth/auth-bootstrap";
 import "./globals.css";
 
 const geistSans = Inter({
@@ -32,7 +33,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AuthBootstrap>{children}</AuthBootstrap>
       </body>
     </html>
   );

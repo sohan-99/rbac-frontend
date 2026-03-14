@@ -76,12 +76,7 @@ export function proxy(request: NextRequest) {
   }
 
   if (publicPath) {
-    const fallbackPath = resolveLandingPath(permissions);
-    if (fallbackPath === pathname) {
-      return NextResponse.next();
-    }
-
-    return redirectTo(request, fallbackPath);
+    return NextResponse.next();
   }
 
   const requiredPermission = getRequiredPermission(pathname);

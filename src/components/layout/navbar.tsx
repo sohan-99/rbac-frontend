@@ -1,25 +1,38 @@
 "use client";
 
-import { Bell, ChevronLeft, Search } from "lucide-react";
+import { Bell, ChevronLeft, Menu, Search } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
-export function Navbar() {
+type NavbarProps = {
+  onMenuToggle?: () => void;
+};
+
+export function Navbar({ onMenuToggle }: NavbarProps) {
   const { user } = useAuth();
   const initial = user?.name?.charAt(0).toUpperCase() ?? "?";
+
   return (
-    <header className="flex h-14.5 items-center justify-between border-b border-[#e2e4e8] bg-[#f7f7f9] px-4">
+    <header className="flex h-14 items-center justify-between border-b border-[#e2e4e8] bg-[#f7f7f9] px-3 sm:h-14.5 sm:px-4">
       <div className="flex items-center gap-3">
         <button
           type="button"
-          className="grid h-9 w-9 place-items-center rounded-full border border-[#d7d9df] bg-white text-[#6d7485]"
+          onClick={onMenuToggle}
+          aria-label="Open menu"
+          className="grid h-9 w-9 place-items-center rounded-full border border-[#d7d9df] bg-white text-[#6d7485] md:hidden"
+        >
+          <Menu className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          className="hidden h-9 w-9 place-items-center rounded-full border border-[#d7d9df] bg-white text-[#6d7485] md:grid"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
-        <h1 className="text-[24px] font-medium text-[#2d3546]">Tasks</h1>
+        <h1 className="text-[19px] font-medium text-[#2d3546] sm:text-[24px]">Tasks</h1>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div className="relative hidden md:block">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <div className="relative hidden lg:block">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9197a5]" />
           <input
             type="text"

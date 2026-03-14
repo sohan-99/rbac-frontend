@@ -15,5 +15,10 @@ export function PermissionGate({
   children,
 }: PermissionGateProps) {
   const allowed = usePermission(permission);
+
+  if (allowed === null) {
+    return null;
+  }
+
   return allowed ? children : fallback;
 }

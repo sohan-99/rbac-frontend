@@ -14,16 +14,16 @@ export function PasswordResetScreen() {
   }
 
   return (
-    <main className="min-h-screen bg-white sm:p-6">
-      <section className="relative mx-auto grid min-h-[calc(100vh-2rem)] w-full max-w-7xl grid-cols-1 rounded-xs lg:grid-cols-2">
-        <div className="absolute left-6 z-20 flex items-center gap-2">
+    <main className="min-h-screen bg-white p-3 sm:p-6">
+      <section className="relative mx-auto grid min-h-[calc(100vh-1.5rem)] w-full max-w-7xl grid-cols-1 overflow-hidden rounded-2xl lg:min-h-[calc(100vh-3rem)] lg:grid-cols-2">
+        <div className="absolute left-4 top-4 z-20 flex items-center gap-2 sm:left-6">
           <Image src="/logo.svg" alt="Obliq logo" width={40} height={40} priority />
           <Image src="/Vector.svg" alt="Obliq" width={54} height={20} priority />
         </div>
 
-        <div className="flex items-center justify-center px-4 pt-14 pb-4 lg:px-6 lg:pb-6">
-          <div className="w-full max-w-100">
-            <article className="w-400 max-w-95 rounded-2xl border-10 border-[#00000005] bg-white p-10 shadow-[0_10px_35px_rgba(22,24,35,0.08)] backdrop-blur-[1px]">
+        <div className="flex items-center justify-center px-1 pt-14 pb-2 sm:px-4 sm:pb-4 lg:px-6 lg:pb-6">
+          <div className="w-full max-w-md">
+            <article className="w-full rounded-2xl border-8 border-[#00000005] bg-white p-5 shadow-[0_10px_35px_rgba(22,24,35,0.08)] backdrop-blur-[1px] sm:p-8 md:p-10">
               <h1 className="text-center text-[24px] font-semibold text-[#1f232a]">
                 Forgot password
               </h1>
@@ -31,7 +31,7 @@ export function PasswordResetScreen() {
                 Enter your email to reset your password
               </p>
 
-              <form className="mt-12.5 space-y-2.5" onSubmit={handleSubmit}>
+              <form className="mt-8 space-y-2.5 sm:mt-10" onSubmit={handleSubmit}>
                 <label className="block">
                   <span className="text-[15px] font-medium text-[#404857]">Email</span>
                   <input

@@ -58,7 +58,12 @@ const userLinks = [
   },
 ];
 
-export function Sidebar() {
+type SidebarProps = {
+  mobileOpen?: boolean;
+  onClose?: () => void;
+};
+
+export function Sidebar({ mobileOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, clearAuth } = useAuth();
@@ -73,13 +78,18 @@ export function Sidebar() {
       // Ignore API failure and continue local logout.
     } finally {
       clearAuth();
+      onClose?.();
       router.push("/");
       router.refresh();
     }
   }
 
   return (
-    <aside className="flex w-52 flex-col border-r border-[#ddd7d1] bg-[#ead8cf] p-3">
+    <aside
+      className={`fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-[#ddd7d1] bg-[#ead8cf] p-3 transition-transform duration-200 md:static md:z-auto md:w-52 md:translate-x-0 ${
+        mobileOpen ? "translate-x-0" : "-translate-x-full"
+      }`}
+    >
       <div className="mb-4 flex items-center gap-2 px-1">
         <div className="grid h-6 w-6 place-items-center rounded-md bg-[#6564ec] text-white">
           <div className="h-2.5 w-2.5 rounded-[3px] bg-white" />
@@ -108,6 +118,7 @@ export function Sidebar() {
                   : "text-[#4b566b] hover:bg-[#e3d0c4]"
               }`}
               href={link.href}
+              onClick={onClose}
             >
               <Icon className="h-3.5 w-3.5" />
               {link.label}
@@ -128,6 +139,7 @@ export function Sidebar() {
             <Link
               key={link.label}
               href={link.href}
+              onClick={onClose}
               className={`flex items-center gap-2 rounded-md px-2.5 py-2 text-[14px] transition ${
                 active
                   ? "bg-[#dcc8bb] text-[#384153]"

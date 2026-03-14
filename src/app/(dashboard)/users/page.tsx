@@ -119,7 +119,7 @@ export default function UsersPage() {
       </div>
 
       <div className="overflow-hidden rounded-xl border border-[#e2e5ea] bg-white">
-        <div className="grid grid-cols-[1.3fr_1.2fr_0.8fr_0.8fr_1.8fr] border-b border-[#eceef2] bg-[#f8f9fb] px-4 py-3 text-xs font-semibold uppercase tracking-wide text-[#7f8798]">
+        <div className="hidden grid-cols-[1.3fr_1.2fr_0.8fr_0.8fr_1.8fr] border-b border-[#eceef2] bg-[#f8f9fb] px-4 py-3 text-xs font-semibold uppercase tracking-wide text-[#7f8798] md:grid">
           <span>Name</span>
           <span>Email</span>
           <span>Role</span>
@@ -133,55 +133,116 @@ export default function UsersPage() {
           <p className="px-4 py-6 text-sm text-[#7d8495]">No users found.</p>
         ) : (
           users.map((user) => (
-            <div
-              key={user.id}
-              className="grid grid-cols-[1.3fr_1.2fr_0.8fr_0.8fr_1.8fr] items-center border-b border-[#f1f2f5] px-4 py-3 text-sm text-[#445066] last:border-b-0"
-            >
-              <span className="font-medium text-[#2f394b]">{user.name}</span>
-              <span>{user.email}</span>
-              <span className="capitalize">{user.role}</span>
-              <span>
-                <span
-                  className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                    statusPill[(user.status ?? "active") as "active" | "suspended" | "banned"]
-                  }`}
-                >
-                  {user.status ?? "active"}
+            <div key={user.id} className="border-b border-[#f1f2f5] last:border-b-0">
+              <div className="space-y-3 px-4 py-4 text-sm text-[#445066] md:hidden">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-medium text-[#2f394b]">{user.name}</p>
+                    <p className="break-all text-[#6f7788]">{user.email}</p>
+                  </div>
+                  <span
+                    className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
+                      statusPill[(user.status ?? "active") as "active" | "suspended" | "banned"]
+                    }`}
+                  >
+                    {user.status ?? "active"}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 rounded-lg bg-[#f8f9fb] p-3 text-xs">
+                  <div>
+                    <p className="mb-1 uppercase tracking-wide text-[#8a91a1]">Role</p>
+                    <p className="capitalize text-[#2f394b]">{user.role}</p>
+                  </div>
+                  <div>
+                    <p className="mb-1 uppercase tracking-wide text-[#8a91a1]">Status</p>
+                    <p className="capitalize text-[#2f394b]">{user.status ?? "active"}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    disabled={!canManageUsers}
+                    className="rounded-md border border-[#d8dbe2] bg-white px-2.5 py-2 text-xs font-medium text-[#4b5569] hover:bg-[#f6f7f9] disabled:cursor-not-allowed disabled:opacity-50"
+                    onClick={() => void openPermissionEditor(user)}
+                  >
+                    Permissions
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!canManageUsers}
+                    className="rounded-md border border-[#ead8be] bg-[#fff4e6] px-2.5 py-2 text-xs font-medium text-[#af6b1d] disabled:cursor-not-allowed disabled:opacity-50"
+                    onClick={() => void updateStatus(user.id, "suspend")}
+                  >
+                    Suspend
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!canManageUsers}
+                    className="rounded-md border border-[#f4cfcf] bg-[#fdeceb] px-2.5 py-2 text-xs font-medium text-[#bd3b34] disabled:cursor-not-allowed disabled:opacity-50"
+                    onClick={() => void updateStatus(user.id, "ban")}
+                  >
+                    Ban
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!canManageUsers}
+                    className="rounded-md border border-[#cbe6d4] bg-[#eaf7ee] px-2.5 py-2 text-xs font-medium text-[#2c7a4f] disabled:cursor-not-allowed disabled:opacity-50"
+                    onClick={() => void updateStatus(user.id, "activate")}
+                  >
+                    Activate
+                  </button>
+                </div>
+              </div>
+
+              <div className="hidden grid-cols-[1.3fr_1.2fr_0.8fr_0.8fr_1.8fr] items-center px-4 py-3 text-sm text-[#445066] md:grid">
+                <span className="font-medium text-[#2f394b]">{user.name}</span>
+                <span className="truncate">{user.email}</span>
+                <span className="capitalize">{user.role}</span>
+                <span>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                      statusPill[(user.status ?? "active") as "active" | "suspended" | "banned"]
+                    }`}
+                  >
+                    {user.status ?? "active"}
+                  </span>
                 </span>
-              </span>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  disabled={!canManageUsers}
-                  className="rounded-md border border-[#d8dbe2] bg-white px-2.5 py-1 text-xs font-medium text-[#4b5569] hover:bg-[#f6f7f9] disabled:cursor-not-allowed disabled:opacity-50"
-                  onClick={() => void openPermissionEditor(user)}
-                >
-                  Permissions
-                </button>
-                <button
-                  type="button"
-                  disabled={!canManageUsers}
-                  className="rounded-md border border-[#ead8be] bg-[#fff4e6] px-2.5 py-1 text-xs font-medium text-[#af6b1d] disabled:cursor-not-allowed disabled:opacity-50"
-                  onClick={() => void updateStatus(user.id, "suspend")}
-                >
-                  Suspend
-                </button>
-                <button
-                  type="button"
-                  disabled={!canManageUsers}
-                  className="rounded-md border border-[#f4cfcf] bg-[#fdeceb] px-2.5 py-1 text-xs font-medium text-[#bd3b34] disabled:cursor-not-allowed disabled:opacity-50"
-                  onClick={() => void updateStatus(user.id, "ban")}
-                >
-                  Ban
-                </button>
-                <button
-                  type="button"
-                  disabled={!canManageUsers}
-                  className="rounded-md border border-[#cbe6d4] bg-[#eaf7ee] px-2.5 py-1 text-xs font-medium text-[#2c7a4f] disabled:cursor-not-allowed disabled:opacity-50"
-                  onClick={() => void updateStatus(user.id, "activate")}
-                >
-                  Activate
-                </button>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    disabled={!canManageUsers}
+                    className="rounded-md border border-[#d8dbe2] bg-white px-2.5 py-1 text-xs font-medium text-[#4b5569] hover:bg-[#f6f7f9] disabled:cursor-not-allowed disabled:opacity-50"
+                    onClick={() => void openPermissionEditor(user)}
+                  >
+                    Permissions
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!canManageUsers}
+                    className="rounded-md border border-[#ead8be] bg-[#fff4e6] px-2.5 py-1 text-xs font-medium text-[#af6b1d] disabled:cursor-not-allowed disabled:opacity-50"
+                    onClick={() => void updateStatus(user.id, "suspend")}
+                  >
+                    Suspend
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!canManageUsers}
+                    className="rounded-md border border-[#f4cfcf] bg-[#fdeceb] px-2.5 py-1 text-xs font-medium text-[#bd3b34] disabled:cursor-not-allowed disabled:opacity-50"
+                    onClick={() => void updateStatus(user.id, "ban")}
+                  >
+                    Ban
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!canManageUsers}
+                    className="rounded-md border border-[#cbe6d4] bg-[#eaf7ee] px-2.5 py-1 text-xs font-medium text-[#2c7a4f] disabled:cursor-not-allowed disabled:opacity-50"
+                    onClick={() => void updateStatus(user.id, "activate")}
+                  >
+                    Activate
+                  </button>
+                </div>
               </div>
             </div>
           ))
@@ -207,15 +268,15 @@ export default function UsersPage() {
                 return (
                   <label
                     key={permission.key}
-                    className={`flex items-center justify-between rounded-md px-2 py-1.5 ${
+                    className={`flex flex-col gap-2 rounded-md px-2 py-1.5 sm:flex-row sm:items-center sm:justify-between ${
                       disabled ? "bg-[#f6f7f9]" : "hover:bg-[#f9fafb]"
                     }`}
                   >
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-sm font-medium text-[#2f394b]">{permission.name}</p>
-                      <p className="text-xs text-[#7b8395]">{permission.key}</p>
+                      <p className="break-all text-xs text-[#7b8395]">{permission.key}</p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       {permission.inherited ? (
                         <span className="rounded-full bg-[#eef1f5] px-2 py-0.5 text-[10px] font-medium text-[#667086]">
                           inherited
@@ -241,11 +302,11 @@ export default function UsersPage() {
 
             {message ? <p className="text-sm text-[#2f7f5f]">{message}</p> : null}
 
-            <div className="flex justify-end gap-2">
+            <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
               <button
                 type="button"
                 onClick={closePermissionEditor}
-                className="rounded-md border border-[#d8dbe2] px-3 py-1.5 text-sm text-[#4b5569]"
+                className="rounded-md border border-[#d8dbe2] px-3 py-2 text-sm text-[#4b5569]"
               >
                 Cancel
               </button>
@@ -253,7 +314,7 @@ export default function UsersPage() {
                 type="button"
                 onClick={() => void savePermissions()}
                 disabled={saving}
-                className="rounded-md bg-[#6564ec] px-3 py-1.5 text-sm font-medium text-white disabled:opacity-60"
+                className="rounded-md bg-[#6564ec] px-3 py-2 text-sm font-medium text-white disabled:opacity-60"
               >
                 {saving ? "Saving..." : "Save changes"}
               </button>

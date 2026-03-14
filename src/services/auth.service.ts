@@ -31,7 +31,16 @@ export const authService = {
   refresh() {
     return api.post<ApiResponse<{ accessToken: string }>>("/auth/refresh");
   },
-  me() {
-    return api.get<ApiResponse<User>>("/auth/me");
+  me(accessToken?: string) {
+    return api.get<ApiResponse<User>>(
+      "/auth/me",
+      accessToken
+        ? {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        : undefined,
+    );
   },
 };
