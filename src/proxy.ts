@@ -19,6 +19,7 @@ const ROUTE_PERMISSIONS: Array<{ prefix: string; permission: string }> = [
 
 type TokenPayload = {
   permissions?: string[];
+  exp?: number;
 };
 
 function isPublicPath(pathname: string) {
@@ -36,40 +37,19 @@ function redirectTo(request: NextRequest, pathname: string) {
   return NextResponse.redirect(url);
 }
 
-async function resolvePermissions(request: NextRequest) {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
-  const refreshResponse = await fetch(`${apiBaseUrl}/auth/refresh`, {
-    method: "POST",
-    headers: {
-      cookie: request.headers.get("cookie") ?? "",
-    },
-    cache: "no-store",
-  });
-
-  if (!refreshResponse.ok) {
-    return null;
-  }
-
-  const body = (await refreshResponse.json()) as {
-    data?: {
-      accessToken?: string;
-    };
-  };
-
-  const accessToken = body.data?.accessToken;
-  if (!accessToken) {
-    return null;
-  }
-
+function resolvePermissions(token: string): string[] | null {
   try {
-    const decoded = jwtDecode<TokenPayload>(accessToken);
+    const decoded = jwtDecode<TokenPayload>(token);
+    if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+      return null;
+    }
     return decoded.permissions ?? [];
   } catch {
     return null;
   }
 }
 
-export async function proxy(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("refreshToken")?.value;
   const publicPath = isPublicPath(pathname);
@@ -82,7 +62,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const permissions = await resolvePermissions(request);
+  const permissions = resolvePermissions(token);
   if (!permissions) {
     if (publicPath) {
       const response = NextResponse.next();

@@ -30,8 +30,9 @@ export function LoginScreen() {
 
       router.push(resolveLandingPath(user.permissions));
       router.refresh();
-    } catch {
-      setError("Invalid credentials.");
+    } catch (err) {
+      const apiMessage = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      setError(apiMessage ?? "Invalid credentials.");
     } finally {
       setLoading(false);
     }

@@ -28,8 +28,9 @@ export function SignupScreen() {
       setAuth({ accessToken, user });
       router.push(resolveLandingPath(user.permissions));
       router.refresh();
-    } catch {
-      setError("Signup failed. Please try again.");
+    } catch (err) {
+      const apiMessage = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      setError(apiMessage ?? "Signup failed. Please try again.");
     } finally {
       setLoading(false);
     }
