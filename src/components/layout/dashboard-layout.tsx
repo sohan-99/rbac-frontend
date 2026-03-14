@@ -8,11 +8,13 @@ type DashboardLayoutProps = {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      <Sidebar />
-      <div className="flex min-h-screen flex-1 flex-col">
-        <Navbar />
-        <main className="flex-1 p-6">{children}</main>
+    <div className="min-h-screen bg-[#e7e8ec] p-3">
+      <div className="mx-auto flex min-h-[calc(100vh-1.5rem)] max-w-7xl overflow-hidden rounded-[18px] border border-[#d7dae1] bg-[#f6f7f9]">
+        <Sidebar />
+        <div className="flex min-h-full flex-1 flex-col">
+          <Navbar />
+          <main className="flex-1 px-4 py-3.5">{children}</main>
+        </div>
       </div>
     </div>
   );

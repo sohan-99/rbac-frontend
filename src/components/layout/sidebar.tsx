@@ -2,17 +2,33 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import {
+  BarChart3,
+  Briefcase,
+  Cog,
+  FileText,
+  HelpCircle,
+  LayoutGrid,
+  ListTodo,
+  MessageSquare,
+  Receipt,
+  Settings,
+  Users,
+} from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { authService } from "@/services/auth.service";
 
 const links = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/users", label: "Users" },
-  { href: "/leads", label: "Leads" },
-  { href: "/tasks", label: "Tasks" },
-  { href: "/reports", label: "Reports" },
-  { href: "/audit-log", label: "Audit Log" },
-  { href: "/settings", label: "Settings" },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
+  { href: "/leads", label: "Leads", icon: Briefcase },
+  { href: "/tasks", label: "Opportunities", icon: Briefcase },
+  { href: "/tasks", label: "Tasks", icon: ListTodo },
+  { href: "/reports", label: "Reports", icon: BarChart3 },
+];
+
+const userLinks = [
+  { href: "/users", label: "Contacts", icon: Users },
+  { href: "/audit-log", label: "Messages", icon: MessageSquare },
 ];
 
 export function Sidebar() {
@@ -33,48 +49,98 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="flex w-64 flex-col border-r border-slate-200 bg-white p-4">
-      <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-500">
-        RBAC System
-      </p>
-      <nav className="space-y-1">
+    <aside className="flex w-52 flex-col border-r border-[#ddd7d1] bg-[#ead8cf] p-3">
+      <div className="mb-4 flex items-center gap-2 px-1">
+        <div className="grid h-6 w-6 place-items-center rounded-md bg-[#6564ec] text-white">
+          <div className="h-2.5 w-2.5 rounded-[3px] bg-white" />
+        </div>
+        <p className="text-[15px] font-semibold text-[#6166ef]">Overlay</p>
+      </div>
+
+      <div className="mb-4 rounded-xl border border-[#d5cbc3] bg-[#f7f2ee] p-2.5">
+        <p className="text-[12px] font-semibold text-[#394257]">John&apos;s workspace</p>
+        <p className="text-[11px] text-[#8b90a1]">#WD12446875</p>
+      </div>
+
+      <nav className="space-y-0.5">
         {links.map((link) => {
           const active = pathname === link.href;
+          const Icon = link.icon;
 
           return (
             <Link
               key={link.href}
-              className={`block rounded-md px-3 py-2 text-sm transition ${
+              className={`flex items-center gap-2 rounded-md px-2.5 py-2 text-[14px] transition ${
                 active
-                  ? "bg-slate-900 text-white"
-                  : "text-slate-700 hover:bg-slate-100"
+                  ? "bg-[#dcc8bb] text-[#384153]"
+                  : "text-[#4b566b] hover:bg-[#e3d0c4]"
               }`}
               href={link.href}
             >
+              <Icon className="h-3.5 w-3.5" />
               {link.label}
             </Link>
           );
         })}
       </nav>
 
-      <div className="mt-auto space-y-1 pt-6">
+      <div className="mt-4 space-y-0.5">
+        <p className="px-2.5 pb-1 text-[11px] font-medium text-[#9b8f88]">Users</p>
+        {userLinks.map((link) => {
+          const Icon = link.icon;
+
+          return (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="flex items-center gap-2 rounded-md px-2.5 py-2 text-[14px] text-[#4b566b] transition hover:bg-[#e3d0c4]"
+            >
+              <Icon className="h-3.5 w-3.5" />
+              {link.label}
+            </Link>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 space-y-0.5">
+        <p className="px-2.5 pb-1 text-[11px] font-medium text-[#9b8f88]">Other</p>
         <button
           type="button"
-          className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-600 transition hover:bg-slate-100"
+          className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-[14px] text-[#4b566b] transition hover:bg-[#e3d0c4]"
         >
+          <Cog className="h-3.5 w-3.5" />
+          Configuration
+        </button>
+        <button
+          type="button"
+          className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-[14px] text-[#4b566b] transition hover:bg-[#e3d0c4]"
+        >
+          <Receipt className="h-3.5 w-3.5" />
+          Invoice
+        </button>
+      </div>
+
+      <div className="mt-auto space-y-0.5 pt-5">
+        <button
+          type="button"
+          className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-[14px] text-[#4b566b] transition hover:bg-[#e3d0c4]"
+        >
+          <HelpCircle className="h-3.5 w-3.5" />
           Help center
         </button>
         <button
           type="button"
-          className="block w-full rounded-md px-3 py-2 text-left text-sm text-slate-600 transition hover:bg-slate-100"
+          className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-[14px] text-[#4b566b] transition hover:bg-[#e3d0c4]"
         >
+          <Settings className="h-3.5 w-3.5" />
           Settings
         </button>
         <button
           type="button"
           onClick={handleLogout}
-          className="block w-full rounded-md px-3 py-2 text-left text-sm font-medium text-[#FD6D3F] transition hover:bg-[#fff1eb]"
+          className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-[14px] font-medium text-[#FD6D3F] transition hover:bg-[#f5dfd3]"
         >
+          <FileText className="h-3.5 w-3.5" />
           Logout
         </button>
       </div>
