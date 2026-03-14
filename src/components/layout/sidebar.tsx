@@ -16,7 +16,6 @@ import {
   Users,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { usePermission } from "@/hooks/usePermission";
 import { PERMISSIONS } from "@/constants/permissions";
 import { authService } from "@/services/auth.service";
 
@@ -51,27 +50,21 @@ const userLinks = [
     icon: MessageSquare,
     permission: PERMISSIONS.AUDIT_VIEW,
   },
+  {
+    href: "/portal",
+    label: "My Portal",
+    icon: Users,
+    permission: PERMISSIONS.PORTAL_VIEW,
+  },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { clearAuth } = useAuth();
-  const canViewDashboard = usePermission(PERMISSIONS.DASHBOARD_VIEW);
-  const canViewLeads = usePermission(PERMISSIONS.LEADS_VIEW);
-  const canViewTasks = usePermission(PERMISSIONS.TASKS_VIEW);
-  const canViewReports = usePermission(PERMISSIONS.REPORTS_VIEW);
-  const canViewUsers = usePermission(PERMISSIONS.USERS_VIEW);
-  const canViewAudit = usePermission(PERMISSIONS.AUDIT_VIEW);
+  const { user, clearAuth } = useAuth();
+  const userPermissions = user?.permissions ?? [];
 
-  const permissionMap: Record<string, boolean> = {
-    [PERMISSIONS.DASHBOARD_VIEW]: canViewDashboard,
-    [PERMISSIONS.LEADS_VIEW]: canViewLeads,
-    [PERMISSIONS.TASKS_VIEW]: canViewTasks,
-    [PERMISSIONS.REPORTS_VIEW]: canViewReports,
-    [PERMISSIONS.USERS_VIEW]: canViewUsers,
-    [PERMISSIONS.AUDIT_VIEW]: canViewAudit,
-  };
+  const isAllowed = (permission: string) => userPermissions.includes(permission);
 
   async function handleLogout() {
     try {
@@ -101,7 +94,7 @@ export function Sidebar() {
 
       <nav className="space-y-0.5">
         {links
-          .filter((link) => permissionMap[link.permission])
+          .filter((link) => isAllowed(link.permission))
           .map((link) => {
           const active = pathname === link.href;
           const Icon = link.icon;
@@ -126,7 +119,7 @@ export function Sidebar() {
       <div className="mt-4 space-y-0.5">
         <p className="px-2.5 pb-1 text-[11px] font-medium text-[#9b8f88]">Users</p>
         {userLinks
-          .filter((link) => permissionMap[link.permission])
+          .filter((link) => isAllowed(link.permission))
           .map((link) => {
           const active = pathname === link.href;
           const Icon = link.icon;

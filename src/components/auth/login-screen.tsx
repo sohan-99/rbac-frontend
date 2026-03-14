@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { resolveLandingPath } from "@/lib/route-permissions";
 import { authService } from "@/services/auth.service";
 
 export function LoginScreen() {
@@ -27,7 +28,7 @@ export function LoginScreen() {
 
       setAuth({ accessToken, user });
 
-      router.push("/dashboard");
+      router.push(resolveLandingPath(user.permissions));
       router.refresh();
     } catch {
       setError("Invalid credentials.");

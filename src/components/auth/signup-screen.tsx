@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { resolveLandingPath } from "@/lib/route-permissions";
 import { authService } from "@/services/auth.service";
 
 export function SignupScreen() {
@@ -25,7 +26,7 @@ export function SignupScreen() {
       const response = await authService.signup({ name, email, password });
       const { accessToken, user } = response.data.data;
       setAuth({ accessToken, user });
-      router.push("/dashboard");
+      router.push(resolveLandingPath(user.permissions));
       router.refresh();
     } catch {
       setError("Signup failed. Please try again.");

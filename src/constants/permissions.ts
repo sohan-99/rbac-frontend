@@ -7,6 +7,7 @@ export const PERMISSIONS = {
   REPORTS_VIEW: "reports.view",
   AUDIT_VIEW: "audit.view",
   SETTINGS_VIEW: "settings.view",
+  PORTAL_VIEW: "portal.view",
 } as const;
 
 export type PermissionKey =
