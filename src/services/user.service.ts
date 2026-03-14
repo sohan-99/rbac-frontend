@@ -7,4 +7,13 @@ export const userService = {
   getById(userId: string) {
     return api.get(`/users/${userId}`);
   },
+  suspend(userId: string) {
+    return api.patch(`/users/${userId}/suspend`);
+  },
+  ban(userId: string) {
+    return api.patch(`/users/${userId}/ban`);
+  },
+  activate(userId: string) {
+    return api.patch(`/users/${userId}/activate`);
+  },
 };

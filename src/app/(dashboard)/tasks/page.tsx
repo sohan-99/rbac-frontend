@@ -1,7 +1,16 @@
+"use client";
+
+import { PermissionGate } from "@/components/permission/PermissionGate";
+import { PERMISSIONS } from "@/constants/permissions";
+
 export default function TasksPage() {
   return (
-    <section className="space-y-3.5">
-      <div className="rounded-2xl border border-[#dfe2e7] bg-white p-3">
+    <PermissionGate
+      permission={PERMISSIONS.TASKS_VIEW}
+      fallback={<p className="text-sm text-[#8a6272]">You do not have access to Tasks.</p>}
+    >
+      <section className="space-y-3.5">
+        <div className="rounded-2xl border border-[#dfe2e7] bg-white p-3">
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <input
@@ -49,9 +58,9 @@ export default function TasksPage() {
             </div>
           ))}
         </div>
-      </div>
+        </div>
 
-      <div className="rounded-2xl border border-[#dfe2e7] bg-white p-3">
+        <div className="rounded-2xl border border-[#dfe2e7] bg-white p-3">
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <input
@@ -91,7 +100,8 @@ export default function TasksPage() {
             </div>
           ))}
         </div>
-      </div>
-    </section>
+        </div>
+      </section>
+    </PermissionGate>
   );
 }
